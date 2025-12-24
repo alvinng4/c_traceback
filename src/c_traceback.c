@@ -9,7 +9,8 @@
 #include <stdlib.h>
 
 #include "c_traceback.h"
-#include "common.h"
+#include "internal/common.h"
+#include "internal/utils.h"
 
 #define RESET "\033[0m"
 #define BRIGHT_RED "\033[1;31m"
@@ -36,4 +37,34 @@ void ctb_free_context(CTB_Context *restrict context)
     {
         return;
     }
+}
+
+void ctb_print_warning(
+    const char *restrict warning_file,
+    const int warning_line,
+    const char *restrict warning_func,
+    const int error_code,
+    const char *restrict warning_msg
+)
+{
+    fprintf(
+        stderr,
+        "%s%s:%s In %s\"%s\"%s, line %s%d%s in %s%s%s:\n    %s%s%s\n",
+        YELLOW_BOLD,
+        error_code_to_string(error_code),
+        RESET,
+        CYAN_REGULAR,
+        warning_file,
+        RESET,
+        CYAN_REGULAR,
+        warning_line,
+        RESET,
+        CYAN_REGULAR,
+        warning_func,
+        RESET,
+        PURPLE_REGULAR,
+        warning_msg,
+        RESET
+    );
+    fflush(stderr);
 }

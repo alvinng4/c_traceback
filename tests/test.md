@@ -1,1 +1,2 @@
-gcc test.c ../src/c_traceback.c -o test -I ../include -I ../src && ./test
+gcc test.c ../src/*.c -o test -I ../include -I ../src
+./test
