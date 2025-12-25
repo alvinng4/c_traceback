@@ -5,6 +5,16 @@
  * \author Ching-Yin Ng
  */
 
+#include <stdbool.h>
+
+/**
+ * \brief Determine if ANSI color codes should be used for the given output stream.
+ *
+ * \param[in] stream The output stream (e.g., stdout, stderr).
+ * \return true if ANSI color codes should be used, false otherwise.
+ */
+bool should_use_color(FILE *stream);
+
 /**
  * \brief Convert error code to its corresponding string representation.
  *

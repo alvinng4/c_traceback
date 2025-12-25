@@ -8,6 +8,7 @@
 #ifndef C_TRACEBACK_H
 #define C_TRACEBACK_H
 
+#include "c_traceback_colors.h"
 #include "c_traceback_error_codes.h"
 
 typedef struct CTB_Context CTB_Context;

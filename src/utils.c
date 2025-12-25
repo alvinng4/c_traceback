@@ -1,4 +1,83 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "c_traceback.h"
+
+#if defined(_WIN32)
+#include <io.h>
+#include <windows.h>
+#define ISATTY _isatty
+#define FILENO _fileno
+#else
+#include <unistd.h>
+#define ISATTY isatty
+#define FILENO fileno
+#endif
+
+bool should_use_color(FILE *stream)
+{
+    // NO_COLOR set
+    // Don’t output ANSI color escape codes, see no-color.org
+    const char *no_color = getenv("NO_COLOR");
+    if (no_color && no_color[0] != '\0')
+    {
+        return false;
+    }
+
+    // CLICOLOR_FORCE set, but NO_COLOR unset
+    // ANSI colors should be enabled no matter what
+    const char *force_color = getenv("CLICOLOR_FORCE");
+    if (force_color && strcmp(force_color, "0") != 0)
+    {
+        return true;
+    }
+
+    // Check if the stream is a terminal
+    int fd = FILENO(stream);
+    if (!ISATTY(fd))
+    {
+        return false;
+    }
+
+    // Check TERM variable for "dumb" terminals
+    const char *term = getenv("TERM");
+    if (term && strcmp(term, "dumb") == 0)
+    {
+        return false;
+    }
+
+// Windows Specific: Enable Virtual Terminal Processing (ANSI support)
+#if defined(_WIN32)
+    HANDLE hOut = (HANDLE)_get_osfhandle(fd);
+    if (hOut == INVALID_HANDLE_VALUE)
+    {
+        return false;
+    }
+
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(hOut, &dwMode))
+    {
+        return false;
+    }
+
+// ENABLE_VIRTUAL_TERMINAL_PROCESSING might not be defined in older SDKs
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+
+    if (!(dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING))
+    {
+        if (!SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING))
+        {
+            return false; // Failed to enable ANSI support on this Windows console
+        }
+    }
+#endif
+
+    return true;
+}
 
 const char *error_code_to_string(int code)
 {
