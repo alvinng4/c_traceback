@@ -26,4 +26,4 @@ bool should_use_color(FILE *stream);
  */
 const char *error_code_to_string(int code);
 
-#endif
+#endif /* UTILS_H */

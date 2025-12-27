@@ -27,4 +27,4 @@
 #define CTB_MESSAGE_COLOR "\033[0;35m"           // Purple
 // clang-format on
 
-#endif
+#endif /* C_TRACEBACK_COLORS_H */

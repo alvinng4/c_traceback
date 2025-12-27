@@ -103,4 +103,4 @@ void ctb_print_inline_message(
     const char *restrict msg
 );
 
-#endif
+#endif /* C_TRACEBACK_H */

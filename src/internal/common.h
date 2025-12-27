@@ -30,4 +30,4 @@ struct CTB_Context
     CTB_Frame_ stack_frames[MAX_TRACEBACK_FRAMES];
 };
 
-#endif
+#endif /* COMMON_H */
