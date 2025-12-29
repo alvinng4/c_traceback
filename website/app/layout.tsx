@@ -11,7 +11,6 @@ export const metadata: Metadata = {
     // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 }
 
-// const banner = <Banner storageKey="some-key">This template was created with 🩸 and 💦 by <Link href="https://github.com/phucbm">PHUCBM</Link> 🐧</Banner>
 const navbar = (
     <Navbar
         projectLink="https://github.com/alvinng4/c_traceback"
@@ -51,12 +50,15 @@ export default async function RootLayout({children}) {
         </Head>
         <body>
         <Layout
-            // banner={banner}
             navbar={navbar}
             pageMap={pageMap}
             docsRepositoryBase="https://github.com/alvinng4/c_traceback/tree/main"
             footer={footer}
-            search={<NextraSearchDialog pages={pages}/>}
+            search={
+                <div className="w-full md:w-36 lg:w-48"> 
+                    <NextraSearchDialog pages={pages}/>
+                </div>
+            }
             // ... Your additional layout options
         >
             {children}
