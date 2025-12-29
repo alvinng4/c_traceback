@@ -36,18 +36,4 @@ export default {
             timestamp: false,
         }
     },
-    nextraStarter: {
-        title: 'Starter Templates',
-        type: 'menu',
-        items: {
-            docs: {
-                title: 'Docs Starter repo',
-                href: 'https://github.com/phucbm/nextra-docs-starter',
-            },
-            blog: {
-                title: 'Blog Starter repo',
-                href: 'https://github.com/phucbm/nextra-blog-starter'
-            }
-        }
-    },
 }

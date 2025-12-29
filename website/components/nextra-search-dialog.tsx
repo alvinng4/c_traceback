@@ -16,7 +16,7 @@ type Props = {
 };
 type OnSelect = (url: string) => void;
 
-export function NextraSearchDialog({placeholder = "Search...", pages = []}: Props) {
+export function NextraSearchDialog({placeholder = "Search", pages = []}: Props) {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
@@ -226,7 +226,7 @@ function SearchTrigger({placeholder, onClick}: { placeholder: string; onClick: (
         >
             <SearchIcon className="size-4"/>
             <span>{placeholder}</span>
-            <Kbd><span className="text-xs">⌘</span>K</Kbd>
+            <Kbd className="ml-auto"><span className="text-xs">⌘</span>K</Kbd>
         </button>
     );
 }
