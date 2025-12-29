@@ -13,16 +13,13 @@
 
 #include "c_traceback_colors.h"
 #include "c_traceback_errors.h"
+#include "config.h"
 
-// Maximum number of call stack frames
-#define CTB_MAX_CALL_STACK_DEPTH 32
-
-// Maximum number of simultaneous errors
-#define CTB_MAX_NUM_ERROR 8
-
-// Maximum length of error message
-#define CTB_MAX_ERROR_MESSAGE_LENGTH 256
-
+/**
+ * \brief Wrapper macro for a code block to automatically manage call stack frames.
+ *
+ * \param[in] ... The block of code to be wrapped.
+ */
 #define CTB_BLOCK(...)                                                                 \
     do                                                                                 \
     {                                                                                  \
