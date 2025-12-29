@@ -1,3 +1,4 @@
+'use client'
 export const Badge = ({ text = "Macro" }) => {
     let colorClass = "";
 
