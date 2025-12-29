@@ -26,9 +26,9 @@
 #define CTB_BLOCK(...)                                                                 \
     do                                                                                 \
     {                                                                                  \
-        ctb_push_call_stack_frame(__FILE__, __func__, __LINE__, #__VA_ARGS__);                 \
-        __VA_ARGS__                                                                   \
-        ctb_pop_call_stack_frame(__FILE__, __func__, __LINE__, #__VA_ARGS__);                                                    \
+        ctb_push_call_stack_frame(__FILE__, __func__, __LINE__, #__VA_ARGS__);         \
+        __VA_ARGS__                                                                    \
+        ctb_pop_call_stack_frame(__FILE__, __func__, __LINE__, #__VA_ARGS__);          \
     } while (0)
 
 /**
