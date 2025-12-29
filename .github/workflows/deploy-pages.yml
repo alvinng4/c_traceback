@@ -1,8 +1,7 @@
 name: Deploy Nextra Docs to GitHub Pages
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
     paths:
