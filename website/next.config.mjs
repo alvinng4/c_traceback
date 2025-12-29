@@ -5,7 +5,13 @@ const withNextra = nextra({
     defaultShowCopyCode: true,
 });
 
-export default withNextra({
-    // ... Other Next.js config options
-    // output: 'export'
-});
+const isProd = process.env.NODE_ENV === 'production'
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export', // needed for static export with Next 13+
+  basePath: isProd ? '/c_traceback' : '',
+  assetPrefix: isProd ? '/c_traceback/' : '',
+}
+
+export default withNextra(nextConfig);
