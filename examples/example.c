@@ -32,7 +32,17 @@ static void do_calculation(double *vec)
     {
         vec[i] = 0;
     }
-    TRACE(division_vec(vec, 0)); // Throw error
+    int success = TRACE(division_vec(vec, 0)); // Throw error
+    if (!success)
+    {
+        return;
+    }
+
+    // Further calculations...
+    for (int i = 0; i < N; i++)
+    {
+        vec[i] += 10;
+    }
 }
 
 static void division_vec(double *vec, double denominator)
