@@ -19,14 +19,14 @@
  * \brief Wrapper macro for expression to automatically manage call stack frames.
  *
  * \param[in] expr The expression to be traced.
+ *
+ * \return Whether the expression executed without error.
  */
 #define TRACE(expr)                                                                    \
-    do                                                                                 \
-    {                                                                                  \
-        ctb_push_call_stack_frame(__FILE__, __func__, __LINE__, #expr);                \
-        (expr);                                                                        \
-        ctb_pop_call_stack_frame(__FILE__, __func__, __LINE__, #expr);                 \
-    } while (0)
+    (ctb_push_call_stack_frame(__FILE__, __func__, __LINE__, #expr),                   \
+     (expr),                                                                           \
+     ctb_pop_call_stack_frame(__FILE__, __func__, __LINE__, #expr),                    \
+     !ctb_check_error_occurred())
 
 /**
  * \brief Wrapper macro for a code block to automatically manage call stack frames.
