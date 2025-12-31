@@ -12,6 +12,7 @@
 #include <stdbool.h>
 
 #include "c_traceback/color_codes.h"
+#include "c_traceback/error.h"
 #include "c_traceback/log_inline.h"
 #include "c_traceback_errors.h"
 #include "config.h"
@@ -54,19 +55,6 @@
         ctb_push_call_stack_frame(__FILE__, __func__, __LINE__, #__VA_ARGS__);         \
         __VA_ARGS__                                                                    \
         ctb_pop_call_stack_frame();                                                    \
-    } while (0)
-
-/**
- * \brief Wrapper for raising an error with the current call stack.
- *
- * \param[in] ctb_error The error type.
- * \param[in] msg Error message.
- * \param[in] ... Additional arguments for formatting the message.
- */
-#define RAISE_ERROR(ctb_error, msg, ...)                                               \
-    do                                                                                 \
-    {                                                                                  \
-        ctb_raise_error(ctb_error, __FILE__, __LINE__, __func__, msg, __VA_ARGS__);    \
     } while (0)
 
 /**
@@ -122,37 +110,6 @@ void ctb_push_call_stack_frame(
  * \brief Pop the top call stack frame.
  */
 void ctb_pop_call_stack_frame(void);
-
-/**
- * \brief Raise an error with the current call stack.
- *
- * \param[in] error The error type.
- * \param[in] file File where the message is sent.
- * \param[in] line Line number where the message is sent.
- * \param[in] func Function where the message is sent.
- * \param[in] msg Error message.
- * \param[in] ... Additional arguments for formatting the message.
- */
-void ctb_raise_error(
-    CTB_Error error,
-    const char *restrict file,
-    const int line,
-    const char *restrict func,
-    const char *restrict msg,
-    ...
-);
-
-/**
- * \brief Check if any error has occurred.
- *
- * \return true if an error has occurred, false otherwise.
- */
-bool ctb_check_error_occurred(void);
-
-/**
- * \brief Clear all recorded errors.
- */
-void ctb_clear_error(void);
 
 /**
  * \brief Log the traceback of all recorded errors to stderr.

@@ -8,7 +8,9 @@ void recursion(int count)
 {
     if (count >= N)
     {
-        RAISE_ERROR(CTB_RUNTIME_ERROR, "Oh no, some error occurred at depth %d", count);
+        RAISE_ERROR_FMT(
+            CTB_RUNTIME_ERROR, "Oh no, some error occurred at depth %d", count
+        );
         return;
     }
 
