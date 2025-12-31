@@ -5,8 +5,11 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c_traceback.h"
+
+#define MESSAGE_BUFFER_SIZE 256
 
 void inline_error(int i);
 void inline_error_level2(int i);
@@ -26,9 +29,9 @@ int main(void)
 
 void inline_error(int i)
 {
-    CTB_LOG_ERROR_INLINE(
+    CTB_LOG_ERROR_INLINE_FMT(
         CTB_ARITHMETIC_ERROR,
-        "(Test %d) This should be inline error level 1 with arithmetic error",
+        "(Test %d) This should be inline formatted error level 1 with arithmetic error",
         i
     );
     inline_error_level2(i + 1);
@@ -36,18 +39,22 @@ void inline_error(int i)
 
 void inline_error_level2(int i)
 {
-    CTB_LOG_ERROR_INLINE(
-        CTB_BUFFER_ERROR,
+    char message[MESSAGE_BUFFER_SIZE];
+    snprintf(
+        message,
+        MESSAGE_BUFFER_SIZE,
         "(Test %d) This should be inline error level 2 with buffer error",
         i
     );
+    CTB_LOG_ERROR_INLINE(CTB_BUFFER_ERROR, message);
 }
 
 void inline_warning(int i)
 {
-    CTB_LOG_WARNING_INLINE(
+    CTB_LOG_WARNING_INLINE_FMT(
         CTB_DEPRECATION_WARNING,
-        "(Test %d) This should be inline warning level 1 with deprecation warning",
+        "(Test %d) This should be inline formatted warning level 1 with deprecation "
+        "warning",
         i
     );
     inline_warning_level2(i + 1);
@@ -55,20 +62,32 @@ void inline_warning(int i)
 
 void inline_warning_level2(int i)
 {
-    CTB_LOG_WARNING_INLINE(
-        CTB_USER_WARNING,
+    char message[MESSAGE_BUFFER_SIZE];
+    snprintf(
+        message,
+        MESSAGE_BUFFER_SIZE,
         "(Test %d) This should be inline warning level 2 with user warning",
         i
     );
+    CTB_LOG_WARNING_INLINE(CTB_USER_WARNING, message);
 }
 
 void inline_message(int i)
 {
-    CTB_LOG_MESSAGE_INLINE("(Test %d) This should be inline message level 1", i);
+    CTB_LOG_MESSAGE_INLINE_FMT(
+        "(Test %d) This should be inline formatted message level 1", i
+    );
     inline_message_level2(i + 1);
 }
 
 void inline_message_level2(int i)
 {
-    CTB_LOG_MESSAGE_INLINE("(Test %d) This should be inline message level 2", i);
+    char message[MESSAGE_BUFFER_SIZE];
+    snprintf(
+        message,
+        MESSAGE_BUFFER_SIZE,
+        "(Test %d) This should be inline message level 2",
+        i
+    );
+    CTB_LOG_MESSAGE_INLINE(message);
 }

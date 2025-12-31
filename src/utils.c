@@ -13,7 +13,7 @@
 #include "c_traceback.h"
 #include "internal/utils.h"
 
-#if defined(_WIN32)
+#ifdef _WIN32
 #include <io.h>
 #include <windows.h>
 #define ISATTY _isatty
@@ -22,6 +22,12 @@
 #include <unistd.h>
 #define ISATTY isatty
 #define FILENO fileno
+#endif
+
+#ifdef _WIN32
+#define IS_PATH_SEPARATOR(c) ((c) == '/' || (c) == '\\')
+#else
+#define IS_PATH_SEPARATOR(c) ((c) == '/')
 #endif
 
 bool should_use_color(FILE *stream)
@@ -57,7 +63,7 @@ bool should_use_color(FILE *stream)
     }
 
 // Windows Specific: Enable Virtual Terminal Processing (ANSI support)
-#if defined(_WIN32)
+#ifdef _WIN32
     HANDLE hOut = (HANDLE)_get_osfhandle(fd);
     if (hOut == INVALID_HANDLE_VALUE)
     {
@@ -85,6 +91,35 @@ bool should_use_color(FILE *stream)
 #endif
 
     return true;
+}
+
+int get_parent_path_length(const char *restrict path)
+{
+    if (!path)
+    {
+        return 0;
+    }
+
+    const char *last_separator = NULL;
+    const char *current = path;
+
+    while (*current != '\0')
+    {
+        if (IS_PATH_SEPARATOR(*current))
+        {
+            last_separator = current;
+        }
+        current++;
+    }
+
+    if (!last_separator)
+    {
+        return 0;
+    }
+    else
+    {
+        return (int)(last_separator - path);
+    }
 }
 
 const char *error_to_string(CTB_Error error)

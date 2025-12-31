@@ -21,6 +21,15 @@
 bool should_use_color(FILE *stream);
 
 /**
+ * \brief Get the length of the parent directory path from the given file path.
+ *
+ * \param[in] path The file path.
+ * \return The length of the parent directory path. Returns 0 if there is no file
+ * separator.
+ */
+int get_parent_path_length(const char *restrict path);
+
+/**
  * \brief Convert error type to its corresponding string representation.
  *
  * \param[in] error The error type to convert.
