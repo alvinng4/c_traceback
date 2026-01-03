@@ -18,9 +18,9 @@
  * \param[in,out] context The CTB_Context pointer.
  * \param[in,out] error_snapshot The CTB_Error_Snapshot_ pointer to setup.
  * \param[in] error The error type.
- * \param[in] file File where the error is raised.
- * \param[in] line Line number where the error is raised.
- * \param[in] func Function name where the error is raised.
+ * \param[in] file File where the error is throwd.
+ * \param[in] line Line number where the error is throwd.
+ * \param[in] func Function name where the error is throwd.
  */
 static void ctb_setup_error_snapshot_core(
     CTB_Context *restrict context,
@@ -51,7 +51,7 @@ static void ctb_setup_error_snapshot_core(
     }
 }
 
-void ctb_raise_error(
+void ctb_throw_error(
     CTB_Error error,
     const char *restrict file,
     const int line,
@@ -72,7 +72,7 @@ void ctb_raise_error(
     (context->num_errors)++;
 }
 
-void ctb_raise_error_fmt(
+void ctb_throw_error_fmt(
     CTB_Error error,
     const char *restrict file,
     const int line,

@@ -33,7 +33,7 @@ int main(void)
     TRACE(open_file(FILE_PATH1));
     TRACE(open_file(FILE_PATH2));
 
-    // Raise 100 errors for testing
+    // Throw 100 errors for testing
     for (int i = 0; i < 100; ++i)
     {
         TRACE(do_something_risky());
