@@ -16,10 +16,10 @@
  * \param[in] ctb_error The error type.
  * \param[in] msg Error message.
  */
-#define RAISE_ERROR(ctb_error, msg)                                                    \
+#define THROW(ctb_error, msg)                                                          \
     do                                                                                 \
     {                                                                                  \
-        ctb_raise_error(ctb_error, __FILE__, __LINE__, __func__, msg);                 \
+        ctb_throw_error(ctb_error, __FILE__, __LINE__, __func__, msg);                 \
     } while (0)
 
 /**
@@ -30,16 +30,16 @@
  * \param[in] msg Error message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-#define RAISE_ERROR_FMT(ctb_error, msg, ...)                                           \
+#define THROW_FMT(ctb_error, msg, ...)                                                 \
     do                                                                                 \
     {                                                                                  \
-        ctb_raise_error_fmt(                                                           \
+        ctb_throw_error_fmt(                                                           \
             ctb_error, __FILE__, __LINE__, __func__, msg, __VA_ARGS__                  \
         );                                                                             \
     } while (0)
 
 /**
- * \brief Raise an error with the current call stack.
+ * \brief Throw an error with the current call stack.
  *
  * \param[in] error The error type.
  * \param[in] file File where the message is sent.
@@ -48,7 +48,7 @@
  * \param[in] msg Error message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-void ctb_raise_error(
+void ctb_throw_error(
     CTB_Error error,
     const char *restrict file,
     const int line,
@@ -57,7 +57,7 @@ void ctb_raise_error(
 );
 
 /**
- * \brief Raise an error with formatted message with the current call stack.
+ * \brief Throw an error with formatted message with the current call stack.
  *
  * \param[in] error The error type.
  * \param[in] file File where the message is sent.
@@ -66,7 +66,7 @@ void ctb_raise_error(
  * \param[in] msg Error message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-void ctb_raise_error_fmt(
+void ctb_throw_error_fmt(
     CTB_Error error,
     const char *restrict file,
     const int line,

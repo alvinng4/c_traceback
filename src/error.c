@@ -18,9 +18,9 @@
  * \param[in,out] context The CTB_Context pointer.
  * \param[in,out] error_snapshot The CTB_Error_Snapshot_ pointer to setup.
  * \param[in] error The error type.
- * \param[in] file File where the error is raised.
- * \param[in] line Line number where the error is raised.
- * \param[in] func Function name where the error is raised.
+ * \param[in] file File where the error is throwd.
+ * \param[in] line Line number where the error is throwd.
+ * \param[in] func Function name where the error is throwd.
  */
 static void ctb_setup_error_snapshot_core(
     CTB_Context *restrict context,
@@ -36,7 +36,7 @@ static void ctb_setup_error_snapshot_core(
     error_snapshot->error_frame.filename = file;
     error_snapshot->error_frame.line_number = line;
     error_snapshot->error_frame.function_name = func;
-    error_snapshot->error_frame.source_code = "<Error raised here>";
+    error_snapshot->error_frame.source_code = "<Error thrown here>";
 
     const int min_depth = (context->call_depth < CTB_MAX_CALL_STACK_DEPTH)
                               ? context->call_depth
@@ -51,7 +51,7 @@ static void ctb_setup_error_snapshot_core(
     }
 }
 
-void ctb_raise_error(
+void ctb_throw_error(
     CTB_Error error,
     const char *restrict file,
     const int line,
@@ -60,20 +60,19 @@ void ctb_raise_error(
 )
 {
     CTB_Context *context = get_context();
-    (context->num_errors)++;
 
     const int num_errors = context->num_errors;
     if (num_errors >= 0 && num_errors < CTB_MAX_NUM_ERROR)
     {
-        CTB_Error_Snapshot_ *error_snapshot =
-            &(context->error_snapshots[num_errors - 1]);
+        CTB_Error_Snapshot_ *error_snapshot = &(context->error_snapshots[num_errors]);
         ctb_setup_error_snapshot_core(context, error_snapshot, error, file, line, func);
-
         snprintf(error_snapshot->error_message, CTB_MAX_ERROR_MESSAGE_LENGTH, "%s", msg);
     }
+
+    (context->num_errors)++;
 }
 
-void ctb_raise_error_fmt(
+void ctb_throw_error_fmt(
     CTB_Error error,
     const char *restrict file,
     const int line,
@@ -83,13 +82,11 @@ void ctb_raise_error_fmt(
 )
 {
     CTB_Context *context = get_context();
-    (context->num_errors)++;
 
     const int num_errors = context->num_errors;
     if (num_errors >= 0 && num_errors < CTB_MAX_NUM_ERROR)
     {
-        CTB_Error_Snapshot_ *error_snapshot =
-            &(context->error_snapshots[num_errors - 1]);
+        CTB_Error_Snapshot_ *error_snapshot = &(context->error_snapshots[num_errors]);
         ctb_setup_error_snapshot_core(context, error_snapshot, error, file, line, func);
 
         va_list args;
@@ -99,6 +96,8 @@ void ctb_raise_error_fmt(
         );
         va_end(args);
     }
+
+    (context->num_errors)++;
 }
 
 bool ctb_check_error_occurred(void)

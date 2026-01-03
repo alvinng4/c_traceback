@@ -258,6 +258,11 @@ void ctb_log_error_traceback(void)
                                       ? CTB_TRACEBACK_HEADER
                                       : "Traceback";
 
+        if (num_errors > 1)
+        {
+            fprintf(stream, "%s(#%02d)%s ", theme.error, e + 1, theme.reset);
+        }
+
         fprintf(
             stream,
             "%s%s%s %s(most recent call last):%s\n",
@@ -509,7 +514,7 @@ void ctb_print_compilation_info(void)
     };
 
     const CTB_Frame_ error_frame = {
-        75, "example/libs/utils.c", "recursion", "<error raised here>"
+        75, "example/libs/utils.c", "recursion", "<error thrown here>"
     };
 
     fputs("\n", stream);
