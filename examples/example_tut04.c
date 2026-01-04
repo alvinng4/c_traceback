@@ -70,7 +70,9 @@ void divide_vec(double *arr, const size_t n, const double denominator)
     if (denominator == 0.0)
     {
         // Division by zero
-        LOG_WARNING_INLINE_FMT(CTB_WARNING, "Denominator should not be zero! Received: %lf.", denominator);
+        LOG_WARNING_FMT(
+            CTB_WARNING, "Denominator should not be zero! Received: %lf.", denominator
+        );
     }
 
     for (int i = 0; i < n; i++)

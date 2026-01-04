@@ -590,18 +590,18 @@ void ctb_print_compilation_info(void)
         row++;
     }
 
-    /* Sample inline logging */
+    /* Sample logging */
     fputs("\n", stream);
-    fprintf(stream, "%sInline logging (example)%s\n", theme.theme_bold, theme.reset);
-    for (int d = 0; d < 24; d++)
+    fprintf(stream, "%sLogging (example)%s\n", theme.theme_bold, theme.reset);
+    for (int d = 0; d < 17; d++)
     {
         fputs(dash, stream);
     }
     fputs("\n", stream);
     fflush(stream);
-    LOG_ERROR_INLINE(CTB_ERROR, "Sample error for compilation info");
-    LOG_WARNING_INLINE(CTB_USER_WARNING, "Sample warning for compilation info");
-    LOG_MESSAGE_INLINE("Sample info for compilation info");
+    LOG_ERROR(CTB_ERROR, "Sample error for compilation info");
+    LOG_WARNING(CTB_USER_WARNING, "Sample warning for compilation info");
+    LOG_MESSAGE("Sample info for compilation info");
 
     /* Sample Traceback */
     const int num_examples = 3;

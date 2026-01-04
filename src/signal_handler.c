@@ -40,27 +40,27 @@ void ctb_install_signal_handler(void)
 {
     if (signal(SIGABRT, ctb_internal_signal_handler) == SIG_ERR)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGABRT");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGABRT");
     }
     if (signal(SIGSEGV, ctb_internal_signal_handler) == SIG_ERR)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGSEGV");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGSEGV");
     }
     if (signal(SIGILL, ctb_internal_signal_handler) == SIG_ERR)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGILL");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGILL");
     }
     if (signal(SIGTERM, ctb_internal_signal_handler) == SIG_ERR)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGTERM");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGTERM");
     }
     if (signal(SIGFPE, ctb_internal_signal_handler) == SIG_ERR)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGFPE");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGFPE");
     }
     if (signal(SIGINT, ctb_internal_signal_handler) == SIG_ERR)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGINT");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGINT");
     }
 }
 
@@ -113,7 +113,7 @@ void ctb_install_signal_handler(void)
 
     if (sigaltstack(&ss, NULL) == -1)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set alternate signal stack");
+        LOG_WARNING(CTB_WARNING, "Failed to set alternate signal stack");
     }
 
     struct sigaction sa;
@@ -125,32 +125,32 @@ void ctb_install_signal_handler(void)
     // Register Signals
     if (sigaction(SIGABRT, &sa, NULL) == -1)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGABRT");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGABRT");
     }
     if (sigaction(SIGSEGV, &sa, NULL) == -1)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGSEGV");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGSEGV");
     }
     if (sigaction(SIGILL, &sa, NULL) == -1)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGILL");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGILL");
     }
     if (sigaction(SIGTERM, &sa, NULL) == -1)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGTERM");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGTERM");
     }
     if (sigaction(SIGFPE, &sa, NULL) == -1)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGFPE");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGFPE");
     }
     if (sigaction(SIGINT, &sa, NULL) == -1)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGINT");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGINT");
     }
 #ifdef SIGBUS
     if (sigaction(SIGBUS, &sa, NULL) == -1)
     {
-        LOG_WARNING_INLINE(CTB_WARNING, "Failed to set signal handler for SIGBUS");
+        LOG_WARNING(CTB_WARNING, "Failed to set signal handler for SIGBUS");
     }
 #endif /* SIGBUS */
 }
