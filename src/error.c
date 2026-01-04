@@ -116,3 +116,10 @@ void ctb_clear_error(void)
 {
     get_context()->num_errors = 0;
 }
+
+void ctb_clear_context(void)
+{
+    CTB_Context *context = get_context();
+    context->num_errors = 0;
+    context->call_depth = 0;
+}

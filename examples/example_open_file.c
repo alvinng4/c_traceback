@@ -18,6 +18,9 @@ void open_file(const char *file_name)
 
 int main(void)
 {
+    ctb_clear_context();
+    ctb_install_signal_handler();
+
     TRY_GOTO(open_file(FILE_PATH), error);
     /* Do something */
 

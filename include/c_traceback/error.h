@@ -89,4 +89,9 @@ bool ctb_check_error(void);
  */
 void ctb_clear_error(void);
 
+/**
+ * \brief Clear the C Traceback context (including errors and call stack).
+ */
+void ctb_clear_context(void);
+
 #endif // C_TRACEBACK_ERROR_H

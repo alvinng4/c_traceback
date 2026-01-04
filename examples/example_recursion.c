@@ -17,6 +17,9 @@ void recursion(int count)
 
 int main(void)
 {
+    ctb_clear_context();
+    ctb_install_signal_handler();
+
     TRY_GOTO(recursion(0), error);
     printf("This shouldn't be printed if there is error");
 

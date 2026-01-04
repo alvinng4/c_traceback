@@ -13,6 +13,7 @@ void divide_vec(double *arr, const size_t n, const double denominator);
  
 int main(void)
 {
+    ctb_clear_context();
     ctb_install_signal_handler();
 
     const size_t n = 1000;     // Vector size
