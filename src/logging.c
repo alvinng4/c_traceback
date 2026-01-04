@@ -1,6 +1,6 @@
 /**
- * \file log_inline.c
- * \brief Function definitions for inline logging.
+ * \file logging.c
+ * \brief Function definitions for simple logging.
  *
  * \author Ching-Yin Ng
  */
@@ -15,7 +15,7 @@
 #include "internal/utils.h"
 
 /**
- * \brief Helper for logging inline messages without the message body.
+ * \brief Helper for logging simple messages without the message body.
  *
  * \param[in] use_color Whether to use color in the output.
  * \param[in, out] stream The output stream.
@@ -26,7 +26,7 @@
  * \param[in] func The function name.
  * \param[in] header The header string.
  */
-static void ctb_log_inline_core(
+static void ctb_logging_core(
     const bool use_color,
     FILE *stream,
     const char *header_color,
@@ -106,7 +106,7 @@ static void ctb_log_inline_core(
 }
 
 /**
- * \brief Log inline message.
+ * \brief Log message.
  *
  * \param[in, out] stream The output stream.
  * \param[in] header_color The color code for the header.
@@ -117,7 +117,7 @@ static void ctb_log_inline_core(
  * \param[in] header The header string.
  * \param[in] msg The message string.
  */
-static void ctb_log_inline(
+static void ctb_log(
     FILE *stream,
     const char *header_color,
     const char *message_color,
@@ -129,15 +129,8 @@ static void ctb_log_inline(
 )
 {
     const bool use_color = should_use_color(stream);
-    ctb_log_inline_core(
-        use_color,
-        stream,
-        header_color,
-        message_color,
-        file_address,
-        line,
-        func,
-        header
+    ctb_logging_core(
+        use_color, stream, header_color, message_color, file_address, line, func, header
     );
 
     if (use_color)
@@ -153,7 +146,7 @@ static void ctb_log_inline(
 }
 
 /**
- * \brief Log inline message with variadic arguments.
+ * \brief Log message with variadic arguments.
  *
  * \param[in, out] stream The output stream.
  * \param[in] header_color The color code for the header.
@@ -165,7 +158,7 @@ static void ctb_log_inline(
  * \param[in] msg The message format string.
  * \param[in] args The variadic arguments.
  */
-static void ctb_log_inline_fmt(
+static void ctb_log_fmt(
     FILE *stream,
     const char *header_color,
     const char *message_color,
@@ -178,15 +171,8 @@ static void ctb_log_inline_fmt(
 )
 {
     const bool use_color = should_use_color(stream);
-    ctb_log_inline_core(
-        use_color,
-        stream,
-        header_color,
-        message_color,
-        file_address,
-        line,
-        func,
-        header
+    ctb_logging_core(
+        use_color, stream, header_color, message_color, file_address, line, func, header
     );
 
     if (use_color)
@@ -202,7 +188,7 @@ static void ctb_log_inline_fmt(
     fflush(stream);
 }
 
-void ctb_log_error_inline(
+void ctb_log_error(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -211,7 +197,7 @@ void ctb_log_error_inline(
 )
 {
     FILE *stream = stderr;
-    ctb_log_inline(
+    ctb_log(
         stream,
         CTB_ERROR_BOLD_COLOR,
         CTB_ERROR_COLOR,
@@ -223,7 +209,7 @@ void ctb_log_error_inline(
     );
 }
 
-void ctb_log_warning_inline(
+void ctb_log_warning(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -232,7 +218,7 @@ void ctb_log_warning_inline(
 )
 {
     FILE *stream = stderr;
-    ctb_log_inline(
+    ctb_log(
         stream,
         CTB_WARNING_BOLD_COLOR,
         CTB_WARNING_COLOR,
@@ -244,7 +230,7 @@ void ctb_log_warning_inline(
     );
 }
 
-void ctb_log_message_inline(
+void ctb_log_message(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -252,7 +238,7 @@ void ctb_log_message_inline(
 )
 {
     FILE *stream = stdout;
-    ctb_log_inline(
+    ctb_log(
         stream,
         CTB_NORMAL_BOLD_COLOR,
         CTB_NORMAL_COLOR,
@@ -264,7 +250,7 @@ void ctb_log_message_inline(
     );
 }
 
-void ctb_log_error_inline_fmt(
+void ctb_log_error_fmt(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -276,7 +262,7 @@ void ctb_log_error_inline_fmt(
     FILE *stream = stderr;
     va_list args;
     va_start(args, msg);
-    ctb_log_inline_fmt(
+    ctb_log_fmt(
         stream,
         CTB_ERROR_BOLD_COLOR,
         CTB_ERROR_COLOR,
@@ -290,7 +276,7 @@ void ctb_log_error_inline_fmt(
     va_end(args);
 }
 
-void ctb_log_warning_inline_fmt(
+void ctb_log_warning_fmt(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -302,7 +288,7 @@ void ctb_log_warning_inline_fmt(
     FILE *stream = stderr;
     va_list args;
     va_start(args, msg);
-    ctb_log_inline_fmt(
+    ctb_log_fmt(
         stream,
         CTB_WARNING_BOLD_COLOR,
         CTB_WARNING_COLOR,
@@ -316,7 +302,7 @@ void ctb_log_warning_inline_fmt(
     va_end(args);
 }
 
-void ctb_log_message_inline_fmt(
+void ctb_log_message_fmt(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -327,7 +313,7 @@ void ctb_log_message_inline_fmt(
     FILE *stream = stdout;
     va_list args;
     va_start(args, msg);
-    ctb_log_inline_fmt(
+    ctb_log_fmt(
         stream,
         CTB_NORMAL_BOLD_COLOR,
         CTB_NORMAL_COLOR,

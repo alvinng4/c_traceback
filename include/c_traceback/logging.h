@@ -1,12 +1,12 @@
 /**
- * \file log_inline.h
- * \brief Header file for inline logging functions.
+ * \file logging.h
+ * \brief Header file for logging functions.
  *
  * \author Ching-Yin Ng
  */
 
-#ifndef C_TRACEBACK_LOG_INLINE_H
-#define C_TRACEBACK_LOG_INLINE_H
+#ifndef C_TRACEBACK_LOGGING_H
+#define C_TRACEBACK_LOGGING_H
 
 #include "c_traceback/error_codes.h"
 
@@ -16,10 +16,10 @@
  * \param[in] ctb_error The error type.
  * \param[in] msg Error message.
  */
-#define LOG_ERROR_INLINE(ctb_error, msg)                                               \
+#define LOG_ERROR(ctb_error, msg)                                                      \
     do                                                                                 \
     {                                                                                  \
-        ctb_log_error_inline(__FILE__, __LINE__, __func__, ctb_error, msg);            \
+        ctb_log_error(__FILE__, __LINE__, __func__, ctb_error, msg);                   \
     } while (0)
 
 /**
@@ -28,10 +28,10 @@
  * \param[in] ctb_warning The warning type.
  * \param[in] msg Warning message.
  */
-#define LOG_WARNING_INLINE(ctb_warning, msg)                                           \
+#define LOG_WARNING(ctb_warning, msg)                                                  \
     do                                                                                 \
     {                                                                                  \
-        ctb_log_warning_inline(__FILE__, __LINE__, __func__, ctb_warning, msg);        \
+        ctb_log_warning(__FILE__, __LINE__, __func__, ctb_warning, msg);               \
     } while (0)
 
 /**
@@ -39,10 +39,10 @@
  *
  * \param[in] msg Message.
  */
-#define LOG_MESSAGE_INLINE(msg)                                                        \
+#define LOG_MESSAGE(msg)                                                               \
     do                                                                                 \
     {                                                                                  \
-        ctb_log_message_inline(__FILE__, __LINE__, __func__, msg);                     \
+        ctb_log_message(__FILE__, __LINE__, __func__, msg);                            \
     } while (0)
 
 /**
@@ -53,12 +53,10 @@
  * \param[in] msg Error message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-#define LOG_ERROR_INLINE_FMT(ctb_error, msg, ...)                                      \
+#define LOG_ERROR_FMT(ctb_error, msg, ...)                                             \
     do                                                                                 \
     {                                                                                  \
-        ctb_log_error_inline_fmt(                                                      \
-            __FILE__, __LINE__, __func__, ctb_error, msg, __VA_ARGS__                  \
-        );                                                                             \
+        ctb_log_error_fmt(__FILE__, __LINE__, __func__, ctb_error, msg, __VA_ARGS__);  \
     } while (0)
 
 /**
@@ -69,10 +67,10 @@
  * \param[in] msg Warning message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-#define LOG_WARNING_INLINE_FMT(ctb_warning, msg, ...)                                  \
+#define LOG_WARNING_FMT(ctb_warning, msg, ...)                                         \
     do                                                                                 \
     {                                                                                  \
-        ctb_log_warning_inline_fmt(                                                    \
+        ctb_log_warning_fmt(                                                           \
             __FILE__, __LINE__, __func__, ctb_warning, msg, __VA_ARGS__                \
         );                                                                             \
     } while (0)
@@ -83,10 +81,10 @@
  * \param[in] msg Warning message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-#define LOG_MESSAGE_INLINE_FMT(msg, ...)                                               \
+#define LOG_MESSAGE_FMT(msg, ...)                                                      \
     do                                                                                 \
     {                                                                                  \
-        ctb_log_message_inline_fmt(__FILE__, __LINE__, __func__, msg, __VA_ARGS__);    \
+        ctb_log_message_fmt(__FILE__, __LINE__, __func__, msg, __VA_ARGS__);           \
     } while (0)
 
 /**
@@ -98,7 +96,7 @@
  * \param[in] error The error type.
  * \param[in] msg Error message.
  */
-void ctb_log_error_inline(
+void ctb_log_error(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -115,7 +113,7 @@ void ctb_log_error_inline(
  * \param[in] warning The warning type.
  * \param[in] msg Warning message.
  */
-void ctb_log_warning_inline(
+void ctb_log_warning(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -131,7 +129,7 @@ void ctb_log_warning_inline(
  * \param[in] func Function where the message is sent.
  * \param[in] msg Message.
  */
-void ctb_log_message_inline(
+void ctb_log_message(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -148,7 +146,7 @@ void ctb_log_message_inline(
  * \param[in] msg Error message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-void ctb_log_error_inline_fmt(
+void ctb_log_error_fmt(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -167,7 +165,7 @@ void ctb_log_error_inline_fmt(
  * \param[in] msg Warning message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-void ctb_log_warning_inline_fmt(
+void ctb_log_warning_fmt(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -185,7 +183,7 @@ void ctb_log_warning_inline_fmt(
  * \param[in] msg Message.
  * \param[in] ... Additional arguments for formatting the message.
  */
-void ctb_log_message_inline_fmt(
+void ctb_log_message_fmt(
     const char *restrict file,
     const int line,
     const char *restrict func,
@@ -193,4 +191,4 @@ void ctb_log_message_inline_fmt(
     ...
 );
 
-#endif // C_TRACEBACK_LOG_INLINE_H
+#endif // C_TRACEBACK_LOGGING_H
