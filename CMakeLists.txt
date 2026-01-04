@@ -60,7 +60,7 @@ if(ENABLE_SANITIZERS)
 endif()
 
 # --- Definitions ---
-target_compile_definitions(c_traceback PRIVATE VERSION_INFO="${PROJECT_VERSION}")
+target_compile_definitions(c_traceback PRIVATE CTB_VERSION="${PROJECT_VERSION}")
 
 # --- Installation ---
 if(PROJECT_IS_TOP_LEVEL)
