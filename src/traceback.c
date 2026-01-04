@@ -11,7 +11,6 @@
 
 #include "c_traceback.h"
 #include "internal/trace.h"
-#include "internal/traceback.h"
 #include "internal/utils.h"
 
 #if defined(_WIN32)
@@ -100,11 +99,21 @@ static const char *get_dash(FILE *stream)
  * \param[in] index The index of the frame in the call stack.
  * \param[in] frame The frame to print.
  * \param[in] use_color Whether to use color in the output.
+ * \param[in] theme The theme to use for coloring.
+ * \param[in] source_code_color The color code for the source code.
  */
-static void
-print_frame(FILE *stream, int index, const CTB_Frame_ *frame, const Theme *theme)
+static void print_frame(
+    FILE *stream,
+    int index,
+    const CTB_Frame_ *frame,
+    const bool use_color,
+    const Theme *theme,
+    const char *source_code_color
+)
 {
     const int dir_len = get_parent_path_length(frame->filename);
+
+    const char *source_code_color_code = use_color ? source_code_color : "";
 
     // clang-format off
     fprintf(
@@ -126,7 +135,7 @@ print_frame(FILE *stream, int index, const CTB_Frame_ *frame, const Theme *theme
         theme->tb_line, frame->line_number, theme->reset,
         theme->tb_text, theme->reset,
         theme->tb_func, frame->function_name, theme->reset,
-        theme->error, frame->source_code, theme->reset
+        source_code_color_code, frame->source_code, theme->reset
     );
     // clang-format on
 }
@@ -235,6 +244,62 @@ static void print_hrule_with_header(
     print_hrule_internal(stream, use_color, color_code, header);
 }
 
+void ctb_log_call_stack(void)
+{
+    const CTB_Context *context = get_context();
+    FILE *const stream = stdout;
+    const bool use_color = should_use_color(stream);
+    const Theme theme = get_theme(use_color);
+
+    const int num_frames = context->call_depth;
+    const int num_frames_to_print =
+        (num_frames > CTB_MAX_CALL_STACK_DEPTH) ? CTB_MAX_CALL_STACK_DEPTH : num_frames;
+
+    print_hrule(stream, use_color, theme.theme);
+
+    /* Print Header */
+    fprintf(
+        stream,
+        "%sCall Stack (most recent call last):%s\n",
+        theme.theme_bold,
+        theme.reset
+    );
+
+    if (num_frames_to_print <= 0)
+    {
+        fputs("There is no recorded stack frame!\n", stream);
+        print_hrule(stream, use_color, theme.theme);
+        fflush(stream);
+        return;
+    }
+
+    for (int i = 0; i < num_frames_to_print; i++)
+    {
+        print_frame(
+            stream,
+            i,
+            &context->call_stack_frames[i],
+            use_color,
+            &theme,
+            CTB_THEME_COLOR
+        );
+    }
+
+    if (num_frames > CTB_MAX_CALL_STACK_DEPTH)
+    {
+        fprintf(
+            stream,
+            "\n%s[... Skipped %d frames ...]%s\n",
+            theme.tb_text,
+            num_frames - CTB_MAX_CALL_STACK_DEPTH,
+            theme.reset
+        );
+    }
+
+    print_hrule(stream, use_color, theme.theme);
+    fflush(stream);
+}
+
 void ctb_log_traceback(void)
 {
     const CTB_Context *context = get_context();
@@ -287,7 +352,14 @@ void ctb_log_traceback(void)
         /* Print Stack Frames */
         for (int i = 0; i < num_frames_to_print; i++)
         {
-            print_frame(stream, i, &snapshot->call_stack_frames[i], &theme);
+            print_frame(
+                stream,
+                i,
+                &snapshot->call_stack_frames[i],
+                use_color,
+                &theme,
+                CTB_ERROR_COLOR
+            );
         }
 
         if (stack_frames_exceed_max)
@@ -301,7 +373,14 @@ void ctb_log_traceback(void)
             );
         }
 
-        print_frame(stream, num_frames, &snapshot->error_frame, &theme);
+        print_frame(
+            stream,
+            num_frames,
+            &snapshot->error_frame,
+            use_color,
+            &theme,
+            CTB_ERROR_COLOR
+        );
 
         fprintf(stream, "%s%s", theme.error_bold, error_to_string(snapshot->error));
         if (snapshot->error_message[0])
@@ -560,7 +639,7 @@ void ctb_print_compilation_info(void)
 
     for (int i = 0; i < num_examples; i++)
     {
-        print_frame(stream, i, &example_frames[i], &theme);
+        print_frame(stream, i, &example_frames[i], use_color, &theme, CTB_ERROR_COLOR);
     }
 
     fprintf(
@@ -571,7 +650,7 @@ void ctb_print_compilation_info(void)
         theme.reset
     );
 
-    print_frame(stream, 127, &error_frame, &theme);
+    print_frame(stream, 127, &error_frame, use_color, &theme, CTB_ERROR_COLOR);
     fprintf(
         stream,
         "%s%s:%s %s%s%s\n",
