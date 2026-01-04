@@ -3,23 +3,18 @@ A colorful, lightweight error-propagation framework for C.
 
 Website: [https://www.ctraceback.com](https://www.ctraceback.com)
 
-**This library is in early development. Stay tuned!**
+[Get Started →](https://www.ctraceback.com/docs)
 
 ## Features
 * Beautiful tracebacks
-* Exceptions in C
+* Works with Signal Handlers
+* Fast and Thread-safe
 * Explicit control flow
-* Thread-safe
-* Low performance overhead
-* Written in C99 with minimal dependencies
 * Works with MSVC, Clang and GCC
+* Written in C99 with minimal dependencies
 * Detailed documentations
-
-## To-dos before first release
-* Test MSVC
-* Finish docs
 
 ## Support Us
 * ⭐  Give us a star
-* ❤️  Sponsor
+<!-- * ❤️  Sponsor -->
 * 👤  [Follow](https://github.com/alvinng4)
