@@ -20,6 +20,9 @@ void log_message_level2(int i);
 
 int main(void)
 {
+    ctb_clear_context();
+    ctb_install_signal_handler();
+
     log_error(1);
     log_warning(3);
     log_message(5);

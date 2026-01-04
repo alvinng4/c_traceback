@@ -30,6 +30,9 @@ void do_something_risky()
 
 int main(void)
 {
+    ctb_clear_context();
+    ctb_install_signal_handler();
+
     TRACE(open_file(FILE_PATH1));
     TRACE(open_file(FILE_PATH2));
 

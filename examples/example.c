@@ -10,6 +10,9 @@ static void division_vec(double *vec, double denominator);
 
 int main(void)
 {
+    ctb_clear_context();
+    ctb_install_signal_handler();
+
     double *vec = malloc(N * sizeof(double));
     if (!vec)
     {
