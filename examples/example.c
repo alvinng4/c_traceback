@@ -20,7 +20,11 @@ int main(void)
     TRY_GOTO(do_calculation(vec), error);
     printf("This shouldn't be printed if there is error");
 
+    free(vec);
+    return 0;
+
 error:
+    free(vec);
     ctb_dump_traceback(); // Log traceback and reset error stack
     return 0;
 }

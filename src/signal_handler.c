@@ -10,7 +10,6 @@
 #include <stdlib.h>
 
 #include "c_traceback.h"
-#include "internal/traceback.h"
 
 #ifdef _WIN32
 
