@@ -18,23 +18,27 @@ jobs:
         include:
           - name: Linux GCC
             os: ubuntu-latest
-            c_compiler: gcc
+            cc: gcc
 
           - name: Linux Clang
             os: ubuntu-latest
-            c_compiler: clang
+            cc: clang
 
           - name: Windows MSVC
-            on: windows-latest
-            cc: cl
+            os: windows-latest
 
     steps:
     - uses: actions/checkout@v6
 
-    - name: Configure CMake
+    - name: Configure CMake (Unix)
+      if: runner.os != 'Windows'
       run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=ON
       env:
         CC: ${{ matrix.cc }}
+
+    - name: Configure CMake (Windows)
+      if: runner.os == 'Windows'
+      run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=ON -G "Visual Studio 17 2022"
 
     - name: Build
       run: cmake --build build --config Release
