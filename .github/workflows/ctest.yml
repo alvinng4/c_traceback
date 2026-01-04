@@ -1,6 +1,9 @@
 name: Cross-Platform Build & Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
 
 permissions:
   contents: read
