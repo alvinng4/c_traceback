@@ -58,7 +58,14 @@ void initialize_vec(double *arr, const size_t n)
         THROW(CTB_NULL_POINTER_ERROR, "Received null pointer.");
     }
 
-    TRACE_BLOCK(for (int i = 0; i < n; i++) { arr[i] = i; });
+    // clang-format off
+    TRACE_BLOCK(
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = i;
+        }
+    );
+    // clang-format on
 }
 
 void divide_vec(double *arr, const size_t n, const double denominator)
